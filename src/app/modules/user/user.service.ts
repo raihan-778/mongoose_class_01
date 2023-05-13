@@ -1,28 +1,14 @@
+import { IUser } from "./user.interface";
 import User from "./user.model";
 
-export const createUserToDB = async () => {
-  const user = await new User({
-    id: "7785jgjhg8",
-    role: "student",
-
-    password: "janina",
-    name: {
-      firstName: "Mr. Unknown",
-      middleName: "Uddin",
-      lastName: "Arif",
-    },
-    dateOfBirth: "5/7/2000",
-    gender: "male",
-    email: "dream@gmail.com",
-    contactNo: "01746453834",
-    emergencyContactNo: "01495856875",
-    presentAddress: "ctg",
-    permanentAddress: "ctg",
-  });
+export const createUserToDB = async (payload: IUser): Promise<IUser> => {
+  //createUserToDB function receive a parameter which will must be IUser type & return value will be a Promise which is also IUser data format type.l
+  const user = await new User(payload);
   await user.save();
   return user;
 };
-export const getUsersFromDB = async () => {
+
+export const getUsersFromDB = async (): Promise<IUser[]> => {
   const users = await User.find();
   return users;
 };

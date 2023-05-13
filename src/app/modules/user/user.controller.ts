@@ -1,3 +1,4 @@
+import { IUser } from "./user.interface";
 import { NextFunction, Request, Response } from "express";
 import { createUserToDB, getUsersFromDB } from "./user.service";
 
@@ -8,7 +9,8 @@ export const createUser = async (
 ) => {
   //Create an interface
   // here "Request, Response, NextFunction" is built in data type writen in node package of express a third party library.
-  const user = await createUserToDB();
+  const data = req.body;
+  const user = await createUserToDB(data);
   res.status(200).json({
     status: "success",
     data: user,
@@ -20,7 +22,7 @@ export const getUsers = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = getUsersFromDB();
+  const user = await getUsersFromDB();
   res.status(200).json({
     status: "success",
     data: user,
