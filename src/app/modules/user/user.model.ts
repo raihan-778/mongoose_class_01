@@ -1,10 +1,10 @@
 //Create schema corresponding to the document interface
 
-import { Model, Schema, model } from "mongoose";
-import { IUser, IUserMethods } from "./user.interface";
+import mongoose, { Model, Schema, model } from "mongoose";
+import { IUser, IUserMethods, UserModel } from "./user.interface";
 
 // Create a new Model type that knows about IUserMethods...
-type UserModel = Model<IUser, {}, IUserMethods>;
+// type UserModel = Model<IUser, {}, IUserMethods>;
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   // here "UserModel" & "IUserMethods "are used for creating custom instance methods
@@ -31,6 +31,12 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
 userSchema.method("fullName", function fullName() {
   //here we must use default function when we want to user "this property".by using array function we can not accesst any propety using "this "syntex
   return this.name.firstName + " " + this.name.lastName;
+});
+
+//schema for static method. static get infor from class so we can write query for getting data from calss.
+
+userSchema.static("getAdminUsers", async function getAdminUsers() {
+  return await this.find({ role: "admin" });
 });
 
 //create user model using corresponded interface & schema

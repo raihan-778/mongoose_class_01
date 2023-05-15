@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createUser,
+  getAdminUsers,
   getUserById,
   getUserByIdFilter,
   getUsers,
@@ -8,11 +9,12 @@ import {
 
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/", getUsers); // when you call multiple routes please remeber that dynamic routes must be called after static routes such as  here"router.get("/admins", getAdminUsers);" this is a direct route & this is  "router.get("/:id", getUserById)" dynaminc route
 
+router.get("/admins", getAdminUsers);
 //get user by id
-// router.get("/:id", getUserById);
-router.get("/:id", getUserByIdFilter);
+router.get("/:id", getUserById);
+// router.get("/:id", getUserByIdFilter);
 router.post("/create-user", createUser);
 
 export default router;

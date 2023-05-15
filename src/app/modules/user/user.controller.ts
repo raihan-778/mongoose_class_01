@@ -1,7 +1,7 @@
-import { IUser } from "./user.interface";
 import { NextFunction, Request, Response } from "express";
 import {
   createUserToDB,
+  getAdminUsersFromDB,
   getUserByIdFromDB,
   getUserByIdWithFilter,
   getUsersFromDB,
@@ -41,6 +41,8 @@ export const getUserById = async (
 ) => {
   const { id } = req.params;
   const user = await getUserByIdFromDB(id);
+  console.log("hitted from getUserById");
+
   res.status(200).json({
     status: "success",
     data: user,
@@ -57,6 +59,18 @@ export const getUserByIdFilter = async (
   res.status(200).json({
     status: "success",
     data: user,
+  });
+};
+export const getAdminUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const adminUser = await getAdminUsersFromDB();
+  console.log("hitted from getAdminUsers");
+  res.status(200).json({
+    status: "success",
+    data: adminUser,
   });
 };
 /* pattarn of calling
