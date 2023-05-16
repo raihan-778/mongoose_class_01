@@ -25,7 +25,7 @@ we can not use implicit and operator)
 
 ).project({name:1,age:1,gender:1,interests:1})
 
-<!--expelicit And Operator(when we want to filter different value from same field we must use expelicit and operator) -->
+<!--explicit And Operator(when we want to filter different value from same field we must use explicit and operator) -->
 
 # db.practice_data.find({$and: [{ age: { $lt: 30 } },{ gender: "Female" },{ "skills.name": "PYTHON" }]}).project({ age: 1, gender: 1, "skills.name": 1 })
 
@@ -34,3 +34,13 @@ we can not use implicit and operator)
     $and: [{ age: { $ne: 18 } }, { age: { $gt: 15 } }]
 
 }).project({ age: 1 }).sort({ age: 1 })//here we have used explicit and operator
+//
+
+# db.practice_data.find({age:{$exists:true}})
+
+# db.practice_data.find({age:{$type:"number"}})
+
+# db.practice_data.find({skills:{$size:4}}).project({skills:1})
+
+//here "size" is a array query operator size:4 is defined that this array has 4
+data.
