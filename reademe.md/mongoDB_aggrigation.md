@@ -17,3 +17,22 @@
 # Aggregation Operators: MongoDB provides various operators for arithmetic, arrays, dates, strings, and logic, allowing you to perform specific operations within stages.
 
 # By combining these stages and operators, you can construct complex pipelines to transform and analyzes data in MongoDB, enabling advanced data manipulation, analytics, and reporting capabilities.
+
+- mongoDB Aggrigation Methods.()
+
+# db.practice_data.aggregate([
+
+    {$match:{age:{$gt:18},"favouriteColor" : "Blue"}},
+    {$project: {age:1,favouriteColor:1}}
+    ])
+
+- Here in aggrigation process if you defind the project stage before match stage
+  and filter some filed, after filteration project stage remove the filtered
+  filed so that if you want to match such kind of filed which is filterd by
+  project method then you can not get tha matched resuelt /\*
+
+# db.practice_data.aggregate([
+
+    {$project: {age:1,favouriteColor:1,name:1,gender:1}},
+    {$match:{gender:"Female" ,age:{$gt:18}}}
+    ])

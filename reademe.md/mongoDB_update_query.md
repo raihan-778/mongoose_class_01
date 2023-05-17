@@ -71,3 +71,7 @@ first index.If we user "interests:1" it will remove las value and if we use
     )
 
 Here $pullAll syntax will remove specific multiple value from properties.
+
+//Here $rename will change the property name of hole database.
+
+# db.practice_data.updateMany({},{$rename: {"favoutiteColor":"favouriteColor"}})
