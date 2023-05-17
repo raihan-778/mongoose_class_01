@@ -36,3 +36,80 @@
     {$project: {age:1,favouriteColor:1,name:1,gender:1}},
     {$match:{gender:"Female" ,age:{$gt:18}}}
     ])
+
+- $addField(this will create new field in collection but will not modify the
+  original document. If we want to modify the original document we want to
+  create a new collecttion using $out parameter)
+
+# db.practice_data.aggregate([
+
+    { $addFields: { salary: { $floor: { $multiply: [{ $rand: {} }, 100000] } } } },
+    // { $set: { salary: { $floor: "$salary" } } },
+    { $project: { salary: 1 } },
+
+])
+
+- here we have created new collection using $out
+
+# db.practice_data.aggregate([
+
+    {
+        $addFields:
+        {
+            salary:
+            {
+                $toInt:
+                    { $floor: { $multiply: [{ $rand: {} }, 100000] } }
+            }
+        }
+    },{$out:"practice_dataWithSalary"}
+
+])
+
+//use case of $ as reference.
+
+- useCase 1=> as operator.
+- useCase 2=> as filed reference refer to a field $age, $gender // full
+  aggrigation operation
+
+db.practice_data.aggregate([ //$match stage {
+
+        $match:
+        {
+            age: { $gt: 18 }
+
+        }
+    },
+     //group stage
+    {
+
+        $group:
+        {
+            _id: "$age",
+            person: { $sum: 1 }
+
+        },
+
+    },
+    //project stage
+    {
+        $project: {
+            _id: 0,// here _id:0 will remove id field from collection
+            age: "$_id",
+            /* here "_id" field value is used as reference for age field.
+            that means form this stage value of "_id" field will be seen as value of "age" field*/
+            person: 1,
+
+        }
+    },
+    //sort stage
+    {
+        $sort:
+            { age: -1 }
+            // "age:-1" is used to sort the collection as descending order by reference of age
+
+    },
+    //limit stage("$limit" stage  must be added after "$sort" stage)
+    {$limit:50}
+
+])

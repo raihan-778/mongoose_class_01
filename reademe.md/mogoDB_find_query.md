@@ -67,3 +67,7 @@ This query will find the data where "name: javascript" & "level:intermediate" is
 exists only not exact match or sequence
 
 # db.practice_data.find({ skills: { $elemMatch: { name: "JAVASCRIPT", level:"Intermidiate" } } }) .project({ skills: 1 })
+
+//this query will show how value count with this field.
+
+# db.practice_data.find({age:21}).count()
