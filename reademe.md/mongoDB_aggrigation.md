@@ -26,10 +26,10 @@
     {$project: {age:1,favouriteColor:1}}
     ])
 
-- Here in aggrigation process if you defind the project stage before match stage
-  and filter some filed, after filteration project stage remove the filtered
-  filed so that if you want to match such kind of filed which is filterd by
-  project method then you can not get tha matched resuelt /\*
+- Here in aggrigation process if you defined the project stage before match
+  stage and filter some filed, after filteration project stage remove the
+  filtered filed so that if you want to match such kind of filed which is
+  filterd by project method then you can not get tha matched resuelt /\*
 
 # db.practice_data.aggregate([
 
@@ -39,7 +39,7 @@
 
 - $addField(this will create new field in collection but will not modify the
   original document. If we want to modify the original document we want to
-  create a new collecttion using $out parameter)
+  create a new collection using $out parameter)
 
 # db.practice_data.aggregate([
 
@@ -72,11 +72,14 @@
 - useCase 2=> as filed reference refer to a field $age, $gender // full
   aggrigation operation
 
-db.practice_data.aggregate([ //$match stage {
+# db.practice_data.aggregate([
+
+    //$match stage
+    {
 
         $match:
         {
-            age: { $gt: 18 }
+            age: { $gt: 18 }// this field filter more than 18 ages people first.
 
         }
     },
@@ -111,5 +114,33 @@ db.practice_data.aggregate([ //$match stage {
     },
     //limit stage("$limit" stage  must be added after "$sort" stage)
     {$limit:50}
+
+])
+
+//aggrigation with some operators db.practice_data.aggregate([
+
+    {
+        $group:
+        {
+            _id: null,
+            totalSalary: { $sum: "$salary" },
+            maxSalary: { $max: "$salary" },
+            minSalary: { $min: "$salary" },
+            avgSalary: { $avg: "$salary" }
+
+        }
+
+    },
+    {
+        $project:
+        {
+            salary: 1,
+            totalSalary: 1,
+            maxSalary: 1,
+            minSalary: 1,
+            avgSalary: 1,
+            SalaryRange: { $subtract: ["$maxSalary", "$minSalary"] }
+        }
+    }
 
 ])
